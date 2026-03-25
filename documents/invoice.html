@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Invoice - Sri Lanka Online Voting System</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #f0f0f0;
+      color: #212121;
+      font-size: 14px;
+    }
+    .page {
+      width: 794px;
+      min-height: 1123px;
+      background: #fff;
+      margin: 30px auto;
+      padding: 50px 54px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+      position: relative;
+    }
+
+    /* ---- Header ---- */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 36px;
+      padding-bottom: 24px;
+      border-bottom: 3px solid #8B0000;
+    }
+    .brand h1 {
+      font-size: 22px;
+      color: #8B0000;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+    }
+    .brand p {
+      font-size: 11.5px;
+      color: #757575;
+      margin-top: 3px;
+    }
+    .invoice-label {
+      text-align: right;
+    }
+    .invoice-label h2 {
+      font-size: 30px;
+      font-weight: 900;
+      color: #8B0000;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+    .invoice-label p {
+      font-size: 12px;
+      color: #757575;
+      margin-top: 4px;
+    }
+    .invoice-label .inv-num {
+      font-size: 13px;
+      font-weight: 700;
+      color: #212121;
+      margin-top: 4px;
+    }
+
+    /* ---- Info Grid ---- */
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      margin-bottom: 36px;
+    }
+    .info-block h4 {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #9e9e9e;
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+    .info-block p {
+      font-size: 13px;
+      line-height: 1.8;
+      color: #424242;
+    }
+    .info-block p strong {
+      color: #212121;
+      font-size: 14px;
+    }
+
+    /* ---- Status Badge ---- */
+    .status-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 32px;
+    }
+    .badge-unpaid {
+      background: #fff3e0;
+      color: #e65100;
+      border: 1.5px solid #ffcc80;
+      padding: 5px 18px;
+      border-radius: 20px;
+      font-weight: 700;
+      font-size: 12px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .due-date { font-size: 12px; color: #757575; }
+
+    /* ---- Table ---- */
+    .items-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 0;
+    }
+    .items-table thead tr {
+      background: #8B0000;
+      color: #fff;
+    }
+    .items-table thead th {
+      padding: 12px 16px;
+      font-size: 11.5px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 700;
+      text-align: left;
+    }
+    .items-table thead th:last-child { text-align: right; }
+    .items-table tbody tr {
+      border-bottom: 1px solid #eeeeee;
+    }
+    .items-table tbody tr:nth-child(even) { background: #fafafa; }
+    .items-table tbody td {
+      padding: 14px 16px;
+      font-size: 13px;
+      vertical-align: top;
+    }
+    .items-table tbody td:last-child { text-align: right; font-weight: 600; }
+    .item-name { font-weight: 700; color: #212121; margin-bottom: 3px; }
+    .item-desc { font-size: 11.5px; color: #757575; line-height: 1.6; }
+
+    /* ---- Totals ---- */
+    .totals-wrap {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 0;
+      border-top: 2px solid #eeeeee;
+    }
+    .totals-table {
+      width: 280px;
+    }
+    .totals-table td {
+      padding: 9px 16px;
+      font-size: 13px;
+    }
+    .totals-table td:last-child { text-align: right; font-weight: 600; }
+    .totals-table .subtotal-row td { color: #616161; }
+    .totals-table .total-row {
+      background: #8B0000;
+      color: #fff;
+    }
+    .totals-table .total-row td {
+      font-size: 15px;
+      font-weight: 800;
+      padding: 13px 16px;
+    }
+
+    /* ---- Payment Details ---- */
+    .payment-section {
+      margin-top: 36px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+    .payment-box {
+      background: #f9f9f9;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      padding: 18px 20px;
+    }
+    .payment-box h4 {
+      font-size: 10.5px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #9e9e9e;
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+    .payment-box p {
+      font-size: 12.5px;
+      line-height: 1.9;
+      color: #424242;
+    }
+    .payment-box p strong { color: #212121; }
+
+    /* ---- Notes ---- */
+    .notes {
+      margin-top: 24px;
+      padding: 16px 20px;
+      background: #fff8e1;
+      border-left: 4px solid #C8960C;
+      border-radius: 6px;
+    }
+    .notes h4 {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #9e9e9e;
+      margin-bottom: 6px;
+    }
+    .notes p { font-size: 12.5px; color: #616161; line-height: 1.7; }
+
+    /* ---- Footer ---- */
+    .footer {
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid #e0e0e0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .footer p { font-size: 11px; color: #9e9e9e; }
+    .signature-block { text-align: right; }
+    .signature-block .sig-line {
+      width: 180px;
+      height: 1px;
+      background: #212121;
+      margin-left: auto;
+      margin-bottom: 4px;
+    }
+    .signature-block p { font-size: 11.5px; color: #424242; }
+
+    /* ---- Watermark (optional) ---- */
+    .watermark {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-30deg);
+      font-size: 80px;
+      font-weight: 900;
+      color: rgba(139,0,0,0.04);
+      letter-spacing: 8px;
+      text-transform: uppercase;
+      pointer-events: none;
+      user-select: none;
+      white-space: nowrap;
+    }
+
+    @media print {
+      body { background: #fff; }
+      .page { margin: 0; box-shadow: none; padding: 36px 44px; }
+      .no-print { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Print Button -->
+<div class="no-print" style="text-align:center;padding:16px;">
+  <button onclick="window.print()"
+          style="background:#8B0000;color:#fff;border:none;padding:10px 28px;border-radius:6px;font-size:14px;font-weight:700;cursor:pointer;margin-right:10px;">
+    Print / Save as PDF
+  </button>
+  <span style="font-size:12px;color:#757575;">Use your browser's Print dialog → Save as PDF</span>
+</div>
+
+<div class="page">
+  <div class="watermark">INVOICE</div>
+
+  <!-- Header -->
+  <div class="header">
+    <div class="brand">
+      <h1>&#x1F5F3; Sri Lanka e-Vote</h1>
+      <p>Online Voting System Development</p>
+      <p style="margin-top:10px;font-size:12px;color:#424242;">
+        <strong>Kavindu Praneeth</strong><br>
+        Software Developer<br>
+        kavindupraneeth8@gmail.com
+      </p>
+    </div>
+    <div class="invoice-label">
+      <h2>Invoice</h2>
+      <p class="inv-num">INV-2026-001</p>
+      <p>Date issued: <strong>25 March 2026</strong></p>
+      <p>Due date: <strong>25 April 2026</strong></p>
+    </div>
+  </div>
+
+  <!-- Bill To / From -->
+  <div class="info-grid">
+    <div class="info-block">
+      <h4>Billed To</h4>
+      <p>
+        <strong>[Client Name]</strong><br>
+        [Client Organisation / University]<br>
+        [Address Line 1]<br>
+        [Address Line 2]<br>
+        [Phone Number]<br>
+        [Email Address]
+      </p>
+    </div>
+    <div class="info-block">
+      <h4>Project Details</h4>
+      <p>
+        <strong>Project:</strong> Sri Lanka Online Voting System<br>
+        <strong>Type:</strong> Web Application (PHP / MySQL)<br>
+        <strong>Platform:</strong> HTML, CSS, JS, PHP, MySQL<br>
+        <strong>Delivery:</strong> Source code + Documentation<br>
+        <strong>Status:</strong> Completed &amp; Delivered
+      </p>
+    </div>
+  </div>
+
+  <!-- Status -->
+  <div class="status-row">
+    <span class="badge-unpaid">Unpaid</span>
+    <span class="due-date">Payment due by <strong>25 April 2026</strong></span>
+  </div>
+
+  <!-- Items Table -->
+  <table class="items-table">
+    <thead>
+      <tr>
+        <th style="width:50px;">#</th>
+        <th>Description</th>
+        <th style="width:100px;text-align:center;">Qty</th>
+        <th style="width:130px;text-align:right;">Unit Price</th>
+        <th style="width:130px;">Amount</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>01</td>
+        <td>
+          <div class="item-name">Sri Lanka Online Voting System &mdash; Full Development</div>
+          <div class="item-desc">
+            Complete web-based voting system including: voter registration &amp; NIC verification,
+            OTP-based multi-factor authentication (real email delivery), secure vote casting with
+            duplicate prevention, district authority approval workflow, admin dashboard (election &amp;
+            candidate management, voter approval, live results), authority portal, real-time results
+            with visual charts, responsive UI design (HTML/CSS/JS), PHP backend with PDO/MySQL,
+            CSRF protection, and full deployment-ready source code.
+          </div>
+        </td>
+        <td style="text-align:center;">1</td>
+        <td style="text-align:right;">LKR 12,000.00</td>
+        <td>LKR 12,000.00</td>
+      </tr>
+      <tr>
+        <td>02</td>
+        <td>
+          <div class="item-name">Project Report &amp; Documentation</div>
+          <div class="item-desc">
+            Comprehensive project report document covering: introduction &amp; background,
+            aim &amp; objectives, problem statement, comparative analysis of existing systems,
+            system requirements specification, system architecture &amp; design diagrams,
+            implementation details, security features, testing &amp; evaluation, conclusion
+            and future work recommendations. Formatted for academic/professional submission.
+          </div>
+        </td>
+        <td style="text-align:center;">1</td>
+        <td style="text-align:right;">LKR 3,000.00</td>
+        <td>LKR 3,000.00</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Totals -->
+  <div class="totals-wrap">
+    <table class="totals-table">
+      <tr class="subtotal-row">
+        <td>Subtotal</td>
+        <td>LKR 15,000.00</td>
+      </tr>
+      <tr class="subtotal-row">
+        <td>Tax (0%)</td>
+        <td>LKR 0.00</td>
+      </tr>
+      <tr class="subtotal-row">
+        <td>Discount</td>
+        <td>LKR 0.00</td>
+      </tr>
+      <tr class="total-row">
+        <td>Total Due</td>
+        <td>LKR 15,000.00</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- Payment Details -->
+  <div class="payment-section">
+    <div class="payment-box">
+      <h4>Payment Method</h4>
+      <p>
+        <strong>Bank Transfer</strong><br>
+        Bank: [Your Bank Name]<br>
+        Account Name: Kavindu Praneeth<br>
+        Account No: [Your Account Number]<br>
+        Branch: [Branch Name]<br>
+        <br>
+        <strong>Mobile Payment</strong><br>
+        Dialog eZ Cash / SriLankan Payment<br>
+        Mobile: [Your Mobile Number]
+      </p>
+    </div>
+    <div class="payment-box">
+      <h4>Deliverables Included</h4>
+      <p>
+        &#x2714; Full source code (all files)<br>
+        &#x2714; Database schema &amp; setup script<br>
+        &#x2714; Installation guide<br>
+        &#x2714; Admin &amp; user credentials<br>
+        &#x2714; Project report document<br>
+        &#x2714; 7-day post-delivery support
+      </p>
+    </div>
+  </div>
+
+  <!-- Notes -->
+  <div class="notes">
+    <h4>Terms &amp; Notes</h4>
+    <p>
+      Payment is due within 30 days of invoice date. This is a prototype system developed for academic and demonstration
+      purposes. Full source code ownership transfers to the client upon receipt of full payment.
+      For queries, contact: <strong>kavindupraneeth8@gmail.com</strong>
+    </p>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <div>
+      <p>Thank you for your business!</p>
+      <p style="margin-top:3px;">Sri Lanka Online Voting System &mdash; INV-2026-001</p>
+    </div>
+    <div class="signature-block">
+      <div class="sig-line"></div>
+      <p>Kavindu Praneeth</p>
+      <p style="color:#9e9e9e;font-size:10.5px;">Software Developer</p>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
