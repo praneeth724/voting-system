@@ -36,6 +36,12 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
+    // Ensure OTP is assembled before any form containing OTP inputs is submitted
+    const otpForm = document.querySelector('.otp-inputs')?.closest('form');
+    if (otpForm) {
+        otpForm.addEventListener('submit', assembleOTP);
+    }
+
     // ---- Candidate Selection ----
     const candidateCards = document.querySelectorAll('.candidate-card');
     candidateCards.forEach(card => {

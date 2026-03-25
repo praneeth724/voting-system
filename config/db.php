@@ -26,6 +26,7 @@ function getDB(): PDO {
         ];
         try {
             $pdo = new PDO($dsn, DB_USER, DB_PASS, $options);
+            $pdo->exec("SET time_zone = '+00:00'");
         } catch (PDOException $e) {
             die('<div style="font-family:Arial;padding:40px;text-align:center;">
                 <h2 style="color:#c62828">Database Connection Failed</h2>

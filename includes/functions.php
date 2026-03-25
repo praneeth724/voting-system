@@ -63,7 +63,7 @@ function createOTP(PDO $pdo, int $voter_id, string $purpose): string {
     $stmt->execute([$voter_id, $purpose]);
 
     $otp = generateOTP();
-    $expires_at = date('Y-m-d H:i:s', time() + 600); // 10 minutes
+    $expires_at = gmdate('Y-m-d H:i:s', time() + 600); // 10 minutes (UTC)
 
     $stmt = $pdo->prepare("INSERT INTO otp_tokens (voter_id, otp_code, purpose, expires_at) VALUES (?, ?, ?, ?)");
     $stmt->execute([$voter_id, $otp, $purpose, $expires_at]);
@@ -75,7 +75,7 @@ function verifyOTP(PDO $pdo, int $voter_id, string $otp_code, string $purpose): 
     $stmt = $pdo->prepare(
         "SELECT id FROM otp_tokens
          WHERE voter_id = ? AND otp_code = ? AND purpose = ?
-         AND is_used = 0 AND expires_at > NOW()
+         AND is_used = 0 AND expires_at > UTC_TIMESTAMP()
          ORDER BY created_at DESC LIMIT 1"
     );
     $stmt->execute([$voter_id, $otp_code, $purpose]);
