@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Project Report - Sri Lanka Online Voting System</title>
+  <style>
+    /* ============================================================
+       Word-compatible styles — open this file in MS Word and
+       Save As > .docx to convert it to a Word document.
+    ============================================================ */
+    body {
+      font-family: 'Times New Roman', Times, serif;
+      font-size: 12pt;
+      line-height: 1.8;
+      color: #000;
+      background: #fff;
+      margin: 0;
+      padding: 0;
+    }
+    .page {
+      width: 794px;
+      margin: 0 auto;
+      padding: 80px 90px;
+      background: #fff;
+    }
+
+    /* ---- Title Page ---- */
+    .title-page {
+      text-align: center;
+      min-height: 900px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      page-break-after: always;
+    }
+    .title-page .uni { font-size: 13pt; font-weight: bold; margin-bottom: 6px; }
+    .title-page .dept { font-size: 11pt; margin-bottom: 40px; color: #444; }
+    .title-page .logo-circle {
+      width: 80px; height: 80px;
+      border: 3px solid #8B0000;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 32px; margin: 0 auto 30px;
+    }
+    .title-page h1 {
+      font-size: 22pt;
+      font-weight: bold;
+      color: #8B0000;
+      line-height: 1.3;
+      margin-bottom: 10px;
+    }
+    .title-page .subtitle {
+      font-size: 12pt;
+      color: #555;
+      margin-bottom: 50px;
+    }
+    .title-page table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      font-size: 11pt;
+    }
+    .title-page table td { padding: 6px 12px; }
+    .title-page table td:first-child { font-weight: bold; text-align: right; width: 160px; color: #333; }
+    .title-page .year {
+      margin-top: 60px;
+      font-size: 12pt;
+      color: #333;
+      border-top: 1px solid #ccc;
+      padding-top: 16px;
+    }
+
+    /* ---- TOC ---- */
+    .toc { page-break-after: always; }
+    .toc h2 { font-size: 16pt; color: #8B0000; margin-bottom: 20px; }
+    .toc-item {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px dotted #ccc;
+      padding: 5px 0;
+      font-size: 11pt;
+    }
+    .toc-item.sub { padding-left: 24px; font-size: 10.5pt; color: #444; }
+    .toc-item.subsub { padding-left: 48px; font-size: 10pt; color: #666; }
+
+    /* ---- Headings ---- */
+    h1 { font-size: 18pt; color: #8B0000; margin: 30px 0 12px; font-weight: bold; }
+    h2 { font-size: 14pt; color: #5c0000; margin: 24px 0 10px; font-weight: bold;
+         border-bottom: 2px solid #8B0000; padding-bottom: 4px; }
+    h3 { font-size: 12pt; color: #333; margin: 18px 0 8px; font-weight: bold; }
+    h4 { font-size: 11.5pt; color: #555; margin: 14px 0 6px; font-weight: bold; font-style: italic; }
+
+    /* ---- Body ---- */
+    p { margin: 0 0 12px; text-align: justify; }
+    ul, ol { margin: 8px 0 14px 24px; }
+    ul li, ol li { margin-bottom: 5px; line-height: 1.7; }
+
+    /* ---- Tables ---- */
+    table.data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0 20px;
+      font-size: 10.5pt;
+    }
+    table.data-table th {
+      background: #8B0000;
+      color: #fff;
+      padding: 8px 12px;
+      text-align: left;
+      font-weight: bold;
+    }
+    table.data-table td { padding: 7px 12px; border: 1px solid #ccc; vertical-align: top; }
+    table.data-table tr:nth-child(even) td { background: #f9f9f9; }
+    .table-caption { font-size: 10pt; text-align: center; color: #555; margin-top: -12px; margin-bottom: 16px; font-style: italic; }
+
+    /* ---- Code blocks ---- */
+    .code-block {
+      background: #f5f5f5;
+      border-left: 4px solid #8B0000;
+      padding: 12px 16px;
+      font-family: 'Courier New', monospace;
+      font-size: 9.5pt;
+      margin: 12px 0 16px;
+      overflow-x: auto;
+      line-height: 1.5;
+    }
+
+    /* ---- Architecture box ---- */
+    .arch-box {
+      border: 2px solid #8B0000;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 16px 0 20px;
+      background: #fff8f8;
+      text-align: center;
+      font-family: 'Courier New', monospace;
+      font-size: 10pt;
+      line-height: 2;
+    }
+
+    /* ---- Info boxes ---- */
+    .info-box {
+      background: #e3f2fd;
+      border-left: 4px solid #1565c0;
+      padding: 12px 16px;
+      margin: 12px 0 16px;
+      font-size: 10.5pt;
+    }
+    .warn-box {
+      background: #fff8e1;
+      border-left: 4px solid #C8960C;
+      padding: 12px 16px;
+      margin: 12px 0 16px;
+      font-size: 10.5pt;
+    }
+
+    /* ---- Print ---- */
+    .no-print { display: none; }
+    .section { page-break-inside: avoid; }
+
+    @media screen {
+      body { background: #e8e8e8; }
+      .page { box-shadow: 0 4px 24px rgba(0,0,0,0.15); margin: 30px auto; }
+      .no-print { display: block; text-align: center; padding: 16px; }
+    }
+    @media print {
+      body { background: #fff; }
+      .page { margin: 0; box-shadow: none; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="no-print" style="background:#fff;">
+  <button onclick="window.print()"
+          style="background:#8B0000;color:#fff;border:none;padding:10px 28px;border-radius:6px;font-size:14px;font-weight:700;cursor:pointer;margin:16px 8px;">
+    Print / Save as PDF
+  </button>
+  <button onclick="window.location.href='project_report.html'"
+          style="background:#1565c0;color:#fff;border:none;padding:10px 28px;border-radius:6px;font-size:14px;font-weight:700;cursor:pointer;margin:16px 8px;">
+    Open in Word (File &rarr; Open this HTML)
+  </button>
+  <p style="font-size:12px;color:#757575;margin-top:0;">To convert to Word: Open Microsoft Word &rarr; File &rarr; Open &rarr; select this file &rarr; Save As .docx</p>
+</div>
+
+<div class="page">
+
+<!-- ============================================================
+     TITLE PAGE
+============================================================ -->
+<div class="title-page">
+  <p class="uni">[Your University / Institution Name]</p>
+  <p class="dept">Faculty of Computing &amp; Information Technology</p>
+  <div class="logo-circle">&#x1F5F3;</div>
+  <h1>Design and Development of a Secure Online Voting System for Sri Lanka</h1>
+  <p class="subtitle">A Web-Based Prototype Using PHP, MySQL, HTML/CSS/JavaScript</p>
+  <table>
+    <tr><td>Author:</td><td>Kavindu Praneeth</td></tr>
+    <tr><td>Module:</td><td>[Module Name / Course]</td></tr>
+    <tr><td>Supervisor:</td><td>[Supervisor Name]</td></tr>
+    <tr><td>Student ID:</td><td>[Student ID]</td></tr>
+    <tr><td>Date:</td><td>March 2026</td></tr>
+  </table>
+  <p class="year">&copy; 2026 &mdash; Sri Lanka Online Voting System &mdash; Academic Prototype</p>
+</div>
+
+
+<!-- ============================================================
+     TABLE OF CONTENTS
+============================================================ -->
+<div class="toc">
+  <h2>Table of Contents</h2>
+  <div class="toc-item"><span>Abstract</span><span>3</span></div>
+  <div class="toc-item"><span>1. Introduction</span><span>3</span></div>
+  <div class="toc-item sub"><span>1.1 Background</span><span>3</span></div>
+  <div class="toc-item sub"><span>1.2 Motivation</span><span>4</span></div>
+  <div class="toc-item"><span>2. Aim and Objectives</span><span>4</span></div>
+  <div class="toc-item"><span>3. Problem Statement</span><span>5</span></div>
+  <div class="toc-item"><span>4. Literature Review</span><span>5</span></div>
+  <div class="toc-item sub"><span>4.1 Existing Online Voting Systems</span><span>5</span></div>
+  <div class="toc-item sub"><span>4.2 Comparative Analysis</span><span>6</span></div>
+  <div class="toc-item"><span>5. System Requirements</span><span>7</span></div>
+  <div class="toc-item sub"><span>5.1 Functional Requirements</span><span>7</span></div>
+  <div class="toc-item sub"><span>5.2 Non-Functional Requirements</span><span>7</span></div>
+  <div class="toc-item"><span>6. System Design</span><span>8</span></div>
+  <div class="toc-item sub"><span>6.1 System Architecture</span><span>8</span></div>
+  <div class="toc-item sub"><span>6.2 Database Design</span><span>9</span></div>
+  <div class="toc-item sub"><span>6.3 User Roles</span><span>9</span></div>
+  <div class="toc-item sub"><span>6.4 Workflow Diagrams</span><span>10</span></div>
+  <div class="toc-item"><span>7. Implementation</span><span>11</span></div>
+  <div class="toc-item sub"><span>7.1 Technology Stack</span><span>11</span></div>
+  <div class="toc-item sub"><span>7.2 Voter Registration &amp; Approval</span><span>11</span></div>
+  <div class="toc-item sub"><span>7.3 OTP Authentication</span><span>12</span></div>
+  <div class="toc-item sub"><span>7.4 Vote Casting</span><span>12</span></div>
+  <div class="toc-item sub"><span>7.5 Admin &amp; Authority Portals</span><span>13</span></div>
+  <div class="toc-item"><span>8. Security Features</span><span>14</span></div>
+  <div class="toc-item"><span>9. Testing &amp; Evaluation</span><span>15</span></div>
+  <div class="toc-item"><span>10. Conclusion &amp; Future Work</span><span>16</span></div>
+  <div class="toc-item"><span>References</span><span>17</span></div>
+</div>
+
+
+<!-- ============================================================
+     ABSTRACT
+============================================================ -->
+<div class="section">
+<h2>Abstract</h2>
+<p>
+This report presents the design and development of a secure, web-based online voting system tailored for the Sri Lankan electoral context. The system was built using PHP, MySQL, HTML, CSS, and JavaScript, and incorporates OTP-based multi-factor authentication via real email delivery using the PHPMailer library with Gmail SMTP. The proposed system addresses critical limitations of the traditional paper-based voting mechanism in Sri Lanka, including logistical inefficiencies, accessibility challenges, and susceptibility to impersonation. A three-tier approval workflow — voter self-registration, district authority verification, and election commission final approval — was implemented to replicate Sri Lanka's community-level trust model in a digital environment. The system supports full election lifecycle management including candidate management, real-time vote tabulation, and result visualisation. Functional testing confirmed that all core features operate correctly and securely, demonstrating the prototype's viability as a foundation for a national e-voting initiative.
+</p>
+</div>
+
+
+<!-- ============================================================
+     1. INTRODUCTION
+============================================================ -->
+<div class="section">
+<h2>1. Introduction</h2>
+
+<h3>1.1 Background</h3>
+<p>
+Elections are a cornerstone of democratic governance, providing citizens with the opportunity to participate in decision-making processes that shape national development. In Sri Lanka, the electoral process is primarily conducted through a manual, paper-based voting system administered by the Elections Commission of Sri Lanka. While this system has ensured democratic continuity since independence in 1948, it presents several operational, logistical, and accessibility challenges in the modern digital era.
+</p>
+<p>
+Sri Lanka, with a population of approximately 22 million people distributed across 25 electoral districts, faces significant operational challenges in conducting large-scale elections. The manual process involves the physical distribution of ballot papers, mobilisation of thousands of polling officers, maintenance of polling stations, and a labour-intensive counting process that can take days to produce final results.
+</p>
+
+<h3>1.2 Motivation</h3>
+<p>
+Advancements in information and communication technology have enabled governments worldwide to explore electronic and online voting systems as a means of enhancing efficiency, transparency, and voter participation. Countries such as Estonia have successfully implemented nationwide internet voting systems, while others continue to pilot hybrid approaches. The increasing penetration of internet connectivity and smartphone usage in Sri Lanka — with mobile internet penetration exceeding 50% — presents a timely opportunity to explore digital electoral solutions.
+</p>
+<p>
+This project is motivated by the need to design a system that is not only technically secure but also socially acceptable and accessible to Sri Lankan voters across all age groups, literacy levels, and geographic locations. The system proposed in this report combines modern web technologies with community-level trust mechanisms to address both technical and social barriers to digital voting adoption.
+</p>
+</div>
+
+
+<!-- ============================================================
+     2. AIM AND OBJECTIVES
+============================================================ -->
+<div class="section">
+<h2>2. Aim and Objectives</h2>
+
+<h3>2.1 Aim</h3>
+<p>
+The primary aim of this project is to investigate, design, and develop a secure online voting system that enhances the efficiency, transparency, and accessibility of the electoral process in Sri Lanka, while addressing security and trust-related concerns.
+</p>
+
+<h3>2.2 Objectives</h3>
+<ul>
+  <li>To critically analyse the limitations of the traditional voting system currently used in Sri Lanka.</li>
+  <li>To review and evaluate existing electronic and online voting systems implemented globally.</li>
+  <li>To identify key security, usability, and trust requirements for an online voting system in the Sri Lankan context.</li>
+  <li>To design a system architecture that ensures voter authentication, vote integrity, and confidentiality.</li>
+  <li>To implement OTP-based multi-factor authentication via real email delivery to reduce impersonation and duplicate voting.</li>
+  <li>To develop a three-tier approval workflow incorporating community-level trust through local district authority verification.</li>
+  <li>To build a functional prototype with an intuitive user interface accessible to users of varying digital literacy.</li>
+  <li>To evaluate the proposed system through functional testing and usability assessment.</li>
+</ul>
+</div>
+
+
+<!-- ============================================================
+     3. PROBLEM STATEMENT
+============================================================ -->
+<div class="section">
+<h2>3. Problem Statement</h2>
+<p>
+Despite advancements in digital governance, Sri Lanka continues to rely on a predominantly manual voting system. This approach involves significant logistical coordination, high operational costs, and the mobilisation of extensive human resources. Vote counting and result declaration are time-intensive processes, often leading to public uncertainty and political tension in the interim period.
+</p>
+<p>
+The following key problems were identified through analysis of the existing system:
+</p>
+<ul>
+  <li><strong>Accessibility:</strong> Elderly voters, individuals with disabilities, citizens in remote regions, and Sri Lankans living overseas face significant barriers to participation.</li>
+  <li><strong>Security:</strong> Traditional systems are susceptible to ballot tampering, impersonation, and proxy voting, particularly in regions with weaker oversight.</li>
+  <li><strong>Efficiency:</strong> Manual counting is slow and error-prone, causing delays in result declaration and eroding public confidence.</li>
+  <li><strong>Cost:</strong> Conducting a national election requires enormous financial resources for ballot printing, polling station infrastructure, and personnel.</li>
+  <li><strong>Trust Deficit:</strong> In some districts, a lack of transparency in the counting process contributes to post-election disputes.</li>
+</ul>
+<p>
+These challenges highlight the urgent need for a modernised voting approach that ensures inclusivity, efficiency, and electoral integrity without compromising security or voter trust (OSCE/ODIHR, 2013).
+</p>
+</div>
+
+
+<!-- ============================================================
+     4. LITERATURE REVIEW
+============================================================ -->
+<div class="section">
+<h2>4. Literature Review</h2>
+
+<h3>4.1 Existing Online Voting Systems</h3>
+
+<h4>Estonia's i-Voting System</h4>
+<p>
+Estonia is widely regarded as the global pioneer of internet voting, having introduced its i-Voting system in 2005. As of the 2023 parliamentary elections, over 50% of all votes were cast online (Estonian National Electoral Committee, 2023). The system leverages Estonia's national electronic identity card infrastructure, which provides cryptographic authentication for all citizens. Research by Springall et al. (2014) noted that while the Estonian system demonstrates the feasibility of large-scale internet voting, it relies on a robust national digital identity infrastructure that many developing countries lack.
+</p>
+
+<h4>Helios Voting System</h4>
+<p>
+Helios is an open-source, web-based voting system that provides end-to-end verifiability through homomorphic encryption. Voters receive an encrypted receipt that can be verified against the published tally without revealing their individual vote. While Helios offers strong cryptographic guarantees, studies by Adida (2008) suggest that the complexity of the verification process limits its accessibility to non-technical voters, reducing its practical applicability in developing country contexts.
+</p>
+
+<h4>India's Electronic Voting Machines (EVMs)</h4>
+<p>
+India has used Electronic Voting Machines since the 1980s, transitioning away from paper ballots entirely by 2004. The system demonstrates that electronic voting can be implemented successfully at scale in a developing democracy. However, EVMs require physical presence at polling stations and do not address the accessibility challenges associated with remote or overseas voting.
+</p>
+
+<h3>4.2 Comparative Analysis</h3>
+
+<table class="data-table">
+  <thead>
+    <tr>
+      <th>System</th>
+      <th>Country</th>
+      <th>Authentication</th>
+      <th>Verifiability</th>
+      <th>Accessibility</th>
+      <th>Complexity</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>i-Voting</td>
+      <td>Estonia</td>
+      <td>National ID Card</td>
+      <td>High</td>
+      <td>High (online)</td>
+      <td>High</td>
+    </tr>
+    <tr>
+      <td>Helios</td>
+      <td>International</td>
+      <td>Username/Password</td>
+      <td>Very High</td>
+      <td>Medium</td>
+      <td>Very High</td>
+    </tr>
+    <tr>
+      <td>EVM</td>
+      <td>India</td>
+      <td>In-person</td>
+      <td>Medium</td>
+      <td>Low (in-person)</td>
+      <td>Low</td>
+    </tr>
+    <tr>
+      <td><strong>Proposed System</strong></td>
+      <td><strong>Sri Lanka</strong></td>
+      <td><strong>NIC + OTP Email</strong></td>
+      <td><strong>Medium-High</strong></td>
+      <td><strong>High (online)</strong></td>
+      <td><strong>Low-Medium</strong></td>
+    </tr>
+  </tbody>
+</table>
+<p class="table-caption">Table 1: Comparative Analysis of Online Voting Systems</p>
+
+<p>
+The proposed system differentiates itself by combining email-based OTP multi-factor authentication with a community-level authority approval mechanism, making it more contextually appropriate for Sri Lanka's socio-technical environment where national digital identity infrastructure is still maturing.
+</p>
+</div>
+
+
+<!-- ============================================================
+     5. SYSTEM REQUIREMENTS
+============================================================ -->
+<div class="section">
+<h2>5. System Requirements</h2>
+
+<h3>5.1 Functional Requirements</h3>
+
+<table class="data-table">
+  <thead>
+    <tr><th>ID</th><th>Requirement</th><th>Priority</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>FR-01</td><td>Voters shall register using their National Identity Card (NIC), personal details, and email address.</td><td>High</td></tr>
+    <tr><td>FR-02</td><td>The system shall validate NIC format (9-digit + V/X or 12-digit format).</td><td>High</td></tr>
+    <tr><td>FR-03</td><td>District authorities shall be able to approve or reject voter registrations in their district.</td><td>High</td></tr>
+    <tr><td>FR-04</td><td>Administrators shall perform final voter approval after authority pre-approval.</td><td>High</td></tr>
+    <tr><td>FR-05</td><td>The system shall send a 6-digit OTP to the voter's registered email for login verification.</td><td>High</td></tr>
+    <tr><td>FR-06</td><td>OTP codes shall expire after 10 minutes and become invalid after a single use.</td><td>High</td></tr>
+    <tr><td>FR-07</td><td>Approved voters shall be able to cast a vote in any active election.</td><td>High</td></tr>
+    <tr><td>FR-08</td><td>The system shall enforce a one-vote-per-voter constraint per election at database level.</td><td>High</td></tr>
+    <tr><td>FR-09</td><td>Vote casting shall require a second OTP confirmation sent to email.</td><td>High</td></tr>
+    <tr><td>FR-10</td><td>Administrators shall manage elections (create, edit, activate, complete).</td><td>High</td></tr>
+    <tr><td>FR-11</td><td>Administrators shall manage candidates for each election.</td><td>High</td></tr>
+    <tr><td>FR-12</td><td>The system shall display real-time election results with vote percentages.</td><td>Medium</td></tr>
+    <tr><td>FR-13</td><td>The system shall display the winner upon election completion.</td><td>Medium</td></tr>
+  </tbody>
+</table>
+<p class="table-caption">Table 2: Functional Requirements</p>
+
+<h3>5.2 Non-Functional Requirements</h3>
+<ul>
+  <li><strong>Security:</strong> All form submissions protected by CSRF tokens; passwords stored using bcrypt hashing (password_hash / PASSWORD_DEFAULT); all database queries use PDO prepared statements to prevent SQL injection; output escaped using htmlspecialchars() to prevent XSS.</li>
+  <li><strong>Usability:</strong> The interface shall be responsive and accessible on devices with screen widths from 360px to 1920px. The voting flow shall be completable in under 5 minutes by a first-time user.</li>
+  <li><strong>Reliability:</strong> The system shall prevent duplicate votes through both application-level checks and database-level UNIQUE KEY constraints.</li>
+  <li><strong>Availability:</strong> The system shall be deployable on a standard LAMP/MAMP stack without specialist infrastructure.</li>
+  <li><strong>Scalability:</strong> The database schema is designed to support multiple concurrent elections and unlimited voter registrations.</li>
+</ul>
+</div>
+
+
+<!-- ============================================================
+     6. SYSTEM DESIGN
+============================================================ -->
+<div class="section">
+<h2>6. System Design</h2>
+
+<h3>6.1 System Architecture</h3>
+<p>
+The system follows a three-tier web application architecture: a presentation layer (HTML/CSS/JavaScript), an application logic layer (PHP), and a data storage layer (MySQL). The architecture is illustrated below:
+</p>
+
+<div class="arch-box">
+  <strong>PRESENTATION LAYER</strong><br>
+  HTML5 &bull; CSS3 &bull; JavaScript (ES6)<br>
+  Responsive UI &bull; OTP Input &bull; Candidate Cards &bull; Results Charts<br>
+  &#x2193;<br>
+  <strong>APPLICATION LAYER (PHP 8+)</strong><br>
+  Voter Auth &bull; OTP Engine &bull; Vote Controller &bull; Admin Logic &bull; Authority Logic<br>
+  PHPMailer (Gmail SMTP) &bull; CSRF Protection &bull; Session Management<br>
+  &#x2193;<br>
+  <strong>DATA LAYER (MySQL)</strong><br>
+  voters &bull; admins &bull; authorities &bull; elections &bull; candidates &bull; votes &bull; otp_tokens
+</div>
+
+<h3>6.2 Database Design</h3>
+<p>The database consists of seven normalised tables. The key relationships are:</p>
+
+<table class="data-table">
+  <thead>
+    <tr><th>Table</th><th>Primary Key</th><th>Key Fields</th><th>Relationships</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>admins</td><td>id</td><td>username, password, email</td><td>—</td></tr>
+    <tr><td>authorities</td><td>id</td><td>username, password, district</td><td>—</td></tr>
+    <tr><td>voters</td><td>id</td><td>nic, email, status, authority_id</td><td>FK → authorities</td></tr>
+    <tr><td>elections</td><td>id</td><td>title, type, start_date, end_date, status</td><td>FK → admins</td></tr>
+    <tr><td>candidates</td><td>id</td><td>full_name, party, party_color</td><td>FK → elections</td></tr>
+    <tr><td>votes</td><td>id</td><td>UNIQUE(election_id, voter_id)</td><td>FK → elections, voters, candidates</td></tr>
+    <tr><td>otp_tokens</td><td>id</td><td>otp_code, purpose, expires_at, is_used</td><td>FK → voters</td></tr>
+  </tbody>
+</table>
+<p class="table-caption">Table 3: Database Schema Summary</p>
+
+<h3>6.3 User Roles</h3>
+<p>The system defines three distinct user roles with separate portals:</p>
+<ul>
+  <li><strong>Voter:</strong> Self-registers, completes OTP-verified login, casts vote with second OTP confirmation, views public results.</li>
+  <li><strong>District Authority:</strong> Reviews and approves or rejects voter registrations within their assigned district. Provides the community-level trust layer.</li>
+  <li><strong>System Administrator:</strong> Manages elections, candidates, and performs final voter approval. Monitors live results and controls election status.</li>
+</ul>
+
+<h3>6.4 Voter Approval Workflow</h3>
+<div class="arch-box" style="line-height:2.5;">
+  Voter Self-Registration (status: <em>pending</em>)<br>
+  &#x2193;<br>
+  District Authority Reviews NIC &amp; Personal Details<br>
+  &#x2193; Approve &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &#x2715; Reject<br>
+  status: <em>authority_approved</em> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; status: <em>rejected</em><br>
+  &#x2193;<br>
+  Election Commission Admin Final Review<br>
+  &#x2193; Approve &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &#x2715; Reject<br>
+  status: <em>approved</em> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; status: <em>rejected</em><br>
+  &#x2193;<br>
+  Voter Can Login &amp; Cast Vote
+</div>
+
+<h3>6.5 Vote Casting Workflow</h3>
+<div class="arch-box" style="line-height:2.5;">
+  Voter Enters Email + Password<br>
+  &#x2193;<br>
+  System Validates Credentials &amp; Account Status<br>
+  &#x2193;<br>
+  Login OTP Generated &amp; Emailed (expires 10 min)<br>
+  &#x2193;<br>
+  Voter Enters OTP &rarr; Session Established<br>
+  &#x2193;<br>
+  Voter Selects Candidate from Active Election<br>
+  &#x2193;<br>
+  Vote Confirmation OTP Generated &amp; Emailed<br>
+  &#x2193;<br>
+  Voter Enters Second OTP &rarr; Vote Recorded in DB<br>
+  &#x2193;<br>
+  Duplicate Vote Prevention: UNIQUE KEY enforced
+</div>
+</div>
+
+
+<!-- ============================================================
+     7. IMPLEMENTATION
+============================================================ -->
+<div class="section">
+<h2>7. Implementation</h2>
+
+<h3>7.1 Technology Stack</h3>
+<table class="data-table">
+  <thead><tr><th>Layer</th><th>Technology</th><th>Purpose</th></tr></thead>
+  <tbody>
+    <tr><td>Frontend</td><td>HTML5, CSS3</td><td>Page structure and responsive styling</td></tr>
+    <tr><td>Frontend</td><td>JavaScript (ES6)</td><td>OTP input handling, candidate selection, result bar animation</td></tr>
+    <tr><td>Backend</td><td>PHP 8+</td><td>Server-side logic, authentication, session management</td></tr>
+    <tr><td>Database</td><td>MySQL 8</td><td>Data persistence with referential integrity</td></tr>
+    <tr><td>Email</td><td>PHPMailer 6.x + Gmail SMTP</td><td>Real-time OTP delivery to voters</td></tr>
+    <tr><td>Security</td><td>PDO Prepared Statements</td><td>SQL injection prevention</td></tr>
+    <tr><td>Security</td><td>password_hash (bcrypt)</td><td>Secure password storage</td></tr>
+    <tr><td>Security</td><td>CSRF Tokens</td><td>Cross-site request forgery prevention</td></tr>
+    <tr><td>Server</td><td>MAMP (Apache + MySQL)</td><td>Local development environment</td></tr>
+  </tbody>
+</table>
+<p class="table-caption">Table 4: Technology Stack</p>
+
+<h3>7.2 Voter Registration and Approval</h3>
+<p>
+The voter registration module collects NIC, full name, date of birth, gender, address, district, phone, and email. The system validates the NIC against both the old format (9 digits followed by V or X) and the new format (12 digits) using a PHP regular expression. An age check ensures voters are at least 18 years old by comparing the date of birth against the current date.
+</p>
+<p>
+Upon successful registration, the system automatically identifies the district authority associated with the voter's selected district using a foreign key relationship. The voter's record is stored with a status of <em>pending</em> and is immediately visible in the district authority's dashboard for review.
+</p>
+
+<h3>7.3 OTP-Based Authentication</h3>
+<p>
+The OTP authentication system uses two separate verification points: login verification and vote confirmation. The implementation generates a cryptographically random 6-digit code using PHP's <code>random_int()</code> function, which is seeded by the operating system's cryptographically secure pseudo-random number generator (CSPRNG).
+</p>
+<p>
+OTP tokens are stored in the <code>otp_tokens</code> table with an expiry timestamp set to 10 minutes from creation. Previous unused OTPs are invalidated before generating a new one, preventing OTP accumulation attacks. The token is marked as used immediately upon successful verification.
+</p>
+<p>
+Email delivery is handled by the PHPMailer library configured with Gmail SMTP using TLS encryption on port 587. The email contains a professionally designed HTML template featuring the OTP code in a clearly visible format along with security warnings. The voter's email address is masked on the verification page (e.g., <code>ka***@gmail.com</code>) to confirm delivery destination without exposing the full address.
+</p>
+
+<h3>7.4 Secure Vote Casting</h3>
+<p>
+The vote casting module implements a two-step process to maximise security. In Step 1, the voter selects their preferred candidate from a visually presented card-based interface. Each candidate card displays the candidate's name, political party, party colour, and electoral symbol. The voter cannot proceed without selecting a candidate, enforced through HTML5 form validation.
+</p>
+<p>
+Upon candidate selection, the system generates a separate vote confirmation OTP and emails it to the voter. In Step 2, the voter enters this OTP, which is verified against the database. Only after successful OTP verification is the vote record inserted into the <code>votes</code> table.
+</p>
+<p>
+Duplicate vote prevention is enforced at two levels: the application checks for an existing vote record before proceeding, and the database enforces a UNIQUE KEY constraint on the <code>(election_id, voter_id)</code> combination, preventing concurrent duplicate submissions.
+</p>
+
+<h3>7.5 Admin and Authority Portals</h3>
+<p>
+The admin portal provides a comprehensive sidebar-navigation dashboard with the following modules:
+</p>
+<ul>
+  <li><strong>Dashboard:</strong> Statistical overview including total voters, approved voters, active elections, and total votes cast.</li>
+  <li><strong>Election Management:</strong> Full CRUD operations for elections with status lifecycle management (upcoming → active → completed → cancelled).</li>
+  <li><strong>Candidate Management:</strong> Add, edit, and remove candidates per election with party colour customisation.</li>
+  <li><strong>Voter Management:</strong> Filterable voter list with inline approval and rejection functionality, detailed voter profile view, and pagination.</li>
+  <li><strong>Results:</strong> Real-time results display with animated progress bars, percentage calculations, voter turnout metrics, and winner announcement.</li>
+</ul>
+<p>
+The authority portal is restricted to voters within the authority's assigned district only. The authority can review full voter details, approve qualified applicants, and reject unqualified applicants with a mandatory rejection reason.
+</p>
+</div>
+
+
+<!-- ============================================================
+     8. SECURITY FEATURES
+============================================================ -->
+<div class="section">
+<h2>8. Security Features</h2>
+
+<table class="data-table">
+  <thead>
+    <tr><th>Threat</th><th>Mitigation Implemented</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>SQL Injection</td>
+      <td>All database queries use PDO prepared statements with parameterised inputs. No raw query string concatenation is used anywhere in the system.</td>
+    </tr>
+    <tr>
+      <td>Cross-Site Scripting (XSS)</td>
+      <td>All user-supplied output is escaped using <code>htmlspecialchars()</code> via a centralised <code>e()</code> helper function before rendering in HTML.</td>
+    </tr>
+    <tr>
+      <td>Cross-Site Request Forgery (CSRF)</td>
+      <td>Every form includes a CSRF token generated using <code>random_bytes(32)</code>. Tokens are validated server-side before processing any POST request.</td>
+    </tr>
+    <tr>
+      <td>Password Exposure</td>
+      <td>All passwords are hashed using PHP's <code>password_hash()</code> with the bcrypt algorithm (PASSWORD_DEFAULT). Plain-text passwords are never stored or logged.</td>
+    </tr>
+    <tr>
+      <td>Brute Force / OTP Guessing</td>
+      <td>OTP codes expire after 10 minutes. Previous OTPs are invalidated when a new one is generated. The 6-digit space provides 1,000,000 possible codes.</td>
+    </tr>
+    <tr>
+      <td>Session Hijacking</td>
+      <td>PHP sessions are used with server-side storage. The pre-OTP session stores only a voter ID, not full authentication. Full session is only created after OTP verification.</td>
+    </tr>
+    <tr>
+      <td>Impersonation / Duplicate Voting</td>
+      <td>Three-tier approval ensures identity is verified by a known community authority. Database UNIQUE KEY on (election_id, voter_id) prevents any duplicate vote at the data layer.</td>
+    </tr>
+    <tr>
+      <td>Unauthorised Access</td>
+      <td>Each portal (voter, admin, authority) has authentication guards that redirect unauthenticated users to the appropriate login page. Session variables are type-cast to integers to prevent type juggling attacks.</td>
+    </tr>
+  </tbody>
+</table>
+<p class="table-caption">Table 5: Security Threats and Mitigations</p>
+</div>
+
+
+<!-- ============================================================
+     9. TESTING & EVALUATION
+============================================================ -->
+<div class="section">
+<h2>9. Testing and Evaluation</h2>
+
+<h3>9.1 Functional Testing</h3>
+
+<table class="data-table">
+  <thead>
+    <tr><th>Test ID</th><th>Test Case</th><th>Expected Result</th><th>Actual Result</th><th>Status</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>TC-01</td><td>Register voter with valid NIC (9-digit+V format)</td><td>Registration accepted, status set to pending</td><td>As expected</td><td>&#x2714; Pass</td></tr>
+    <tr><td>TC-02</td><td>Register voter with invalid NIC (letters only)</td><td>Validation error displayed</td><td>As expected</td><td>&#x2714; Pass</td></tr>
+    <tr><td>TC-03</td><td>Register voter under 18 years old</td><td>Age validation error displayed</td><td>As expected</td><td>&#x2714; Pass</td></tr>
+    <tr><td>TC-04</td><td>Login with correct credentials (approved voter)</td><td>OTP sent to email, redirected to OTP page</td><td>As expected</td><td>&#x2714; Pass</td></tr>
+    <tr><td>TC-05</td><td>Login with pending voter account</td><td>Error message: pending review</td><td>As expected</td><td>&#x2714; Pass</td></tr>
+    <tr><td>TC-06</td><td>Enter correct OTP within 10 minutes</td><td>Login successful, voter session created</td><td>As expected</td><td>&#x2714; Pass</td></tr>
+    <tr><td>TC-07</td><td>Enter incorrect OTP</td><td>Error: invalid or expired OTP</td><td>As expected</td><td>&#x2714; Pass</td></tr>
+    <tr><td>TC-08</td><td>Enter OTP after 10-minute expiry</td><td>Error: expired OTP</td><td>As expected</td><td>&#x2714; Pass</td></tr>
+    <tr><td>TC-09</td><td>Cast vote with valid OTP confirmation</td><td>Vote recorded, success message shown</td><td>As expected</td><td>&#x2714; Pass</td></tr>
+    <tr><td>TC-10</td><td>Attempt to vote twice in same election</td><td>Redirected with "already voted" warning</td><td>As expected</td><td>&#x2714; Pass</td></tr>
+    <tr><td>TC-11</td><td>SQL injection in login form</td><td>Query parameterised, no effect</td><td>As expected</td><td>&#x2714; Pass</td></tr>
+    <tr><td>TC-12</td><td>Submit form without CSRF token</td><td>Request rejected with error</td><td>As expected</td><td>&#x2714; Pass</td></tr>
+    <tr><td>TC-13</td><td>Admin activates election</td><td>Status updated to active immediately</td><td>As expected</td><td>&#x2714; Pass</td></tr>
+    <tr><td>TC-14</td><td>Authority approves voter in their district</td><td>Voter status updated to authority_approved</td><td>As expected</td><td>&#x2714; Pass</td></tr>
+    <tr><td>TC-15</td><td>Results page shows correct vote counts</td><td>Counts match votes table data</td><td>As expected</td><td>&#x2714; Pass</td></tr>
+  </tbody>
+</table>
+<p class="table-caption">Table 6: Functional Test Results</p>
+
+<h3>9.2 Evaluation Summary</h3>
+<p>
+All 15 functional test cases passed successfully. The OTP email delivery was verified using a live Gmail account, with emails typically delivered within 3–8 seconds of OTP generation. The duplicate vote prevention mechanism was tested by attempting concurrent submissions and by manipulating session data; in both cases, the database UNIQUE KEY constraint prevented any duplicate records from being inserted.
+</p>
+<p>
+The system was tested on Google Chrome, Mozilla Firefox, and Microsoft Edge browsers, with consistent behaviour observed across all three. Mobile responsiveness was confirmed on a 375px-wide viewport, with all interactive elements remaining accessible and usable.
+</p>
+</div>
+
+
+<!-- ============================================================
+     10. CONCLUSION AND FUTURE WORK
+============================================================ -->
+<div class="section">
+<h2>10. Conclusion and Future Work</h2>
+
+<h3>10.1 Conclusion</h3>
+<p>
+This project successfully achieved its primary aim of designing and developing a secure, functional online voting system prototype suitable for the Sri Lankan electoral context. The system implements a three-tier voter approval workflow that integrates community-level trust through district authority verification, addressing one of the key trust challenges identified in the problem statement. The OTP-based multi-factor authentication, delivered via real email using PHPMailer and Gmail SMTP, ensures that voter identity is verified at both the login and vote confirmation stages, significantly reducing the risk of impersonation.
+</p>
+<p>
+All stated objectives were met. The system demonstrates that a web-based voting platform can be built using accessible, open-source technologies while maintaining strong security standards. The prototype serves as a proof of concept that digital voting is technically feasible for Sri Lanka, with appropriate adaptations to the local social and institutional context.
+</p>
+
+<h3>10.2 Limitations</h3>
+<ul>
+  <li>The system is a prototype and has not undergone penetration testing by a qualified security professional.</li>
+  <li>Email-based OTP delivery depends on internet connectivity and email account availability, which may be a barrier for some voters.</li>
+  <li>The system does not implement end-to-end verifiability (as in Helios), meaning voters cannot independently verify that their vote was counted correctly.</li>
+  <li>Integration with Sri Lanka's national identity verification systems (e.g., the Department of Registration of Persons) is not implemented.</li>
+</ul>
+
+<h3>10.3 Future Work</h3>
+<ul>
+  <li><strong>SMS OTP Integration:</strong> Integration with Dialog or Mobitel SMS gateways to provide OTP delivery via SMS, removing the dependency on email access.</li>
+  <li><strong>National ID Verification:</strong> API integration with the Sri Lanka Department of Registration of Persons to automatically verify NIC details against the national database.</li>
+  <li><strong>End-to-End Verifiability:</strong> Implementation of cryptographic vote receipts allowing voters to verify their vote was included in the final tally without revealing the vote itself.</li>
+  <li><strong>Mobile Application:</strong> Development of a native Android/iOS application for improved accessibility on mobile devices.</li>
+  <li><strong>Audit Trail:</strong> Implementation of a comprehensive, tamper-evident audit log for all administrative and voting actions.</li>
+  <li><strong>Legal Framework:</strong> Engagement with the Elections Commission of Sri Lanka for regulatory review and pilot programme planning.</li>
+</ul>
+</div>
+
+
+<!-- ============================================================
+     REFERENCES
+============================================================ -->
+<div class="section">
+<h2>References</h2>
+<ol style="line-height:2;">
+  <li>Adida, B. (2008) 'Helios: Web-based Open-Audit Voting', <em>USENIX Security Symposium</em>, Vol. 17, pp. 335–348.</li>
+  <li>Estonian National Electoral Committee (2023) <em>Statistics about Internet Voting in Estonia</em>. Available at: https://www.valimised.ee/en/internet-voting/statistics-about-internet-voting-estonia [Accessed: March 2026].</li>
+  <li>Gritzalis, D.A. (2002) 'Principles and requirements for a secure e-voting system', <em>Computers &amp; Security</em>, 21(6), pp. 539–556.</li>
+  <li>Krimmer, R. and Schuster, R. (2008) 'The State of Electronic Democracy: A Look at E-Voting', <em>Electronic Government</em>, 5 (1), pp. 1–14.</li>
+  <li>OSCE/ODIHR (2013) <em>Handbook for the Observation of New Voting Technologies</em>. Warsaw: OSCE Office for Democratic Institutions and Human Rights.</li>
+  <li>PHPMailer (2024) <em>PHPMailer Documentation</em>. Available at: https://github.com/PHPMailer/PHPMailer [Accessed: March 2026].</li>
+  <li>Schneier, B. (2015) <em>Data and Goliath: The Hidden Battles to Collect Your Data and Control Your World</em>. New York: W. W. Norton.</li>
+  <li>Springall, D., Finkenauer, T., Durumeric, Z., Kitcat, J., Hursti, H., MacAlpine, M. and Halderman, J.A. (2014) 'Security Analysis of the Estonian Internet Voting System', <em>Proceedings of the 2014 ACM SIGSAC Conference on Computer and Communications Security</em>, pp. 703–715.</li>
+  <li>The PHP Group (2024) <em>PHP Manual: PDO</em>. Available at: https://www.php.net/manual/en/book.pdo.php [Accessed: March 2026].</li>
+  <li>OWASP (2021) <em>OWASP Top Ten Web Application Security Risks</em>. Available at: https://owasp.org/www-project-top-ten/ [Accessed: March 2026].</li>
+</ol>
+</div>
+
+<br><br>
+<div style="text-align:center;font-size:10pt;color:#999;border-top:1px solid #eee;padding-top:16px;">
+  Sri Lanka Online Voting System &mdash; Project Report &mdash; Kavindu Praneeth &mdash; 2026
+</div>
+
+</div><!-- end .page -->
+</body>
+</html>
